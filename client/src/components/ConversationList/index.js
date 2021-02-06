@@ -14,7 +14,7 @@ export default function ConversationList(props) {
   },[])
 
  const getConversations = () => {
-    axios.get('https://randomuser.me/api/?results=20').then(response => {
+    axios.get('https://randomuser.me/api/?results=1').then(response => {
         let newConversations = response.data.results.map(result => {
           return {
             photo: result.picture.large,
@@ -29,7 +29,7 @@ export default function ConversationList(props) {
     return (
       <div className="conversation-list">
         <Toolbar
-          title="Messenger"
+          title="Users"
           leftItems={[
             <ToolbarButton key="cog" icon="ion-ios-cog" />
           ]}
@@ -37,7 +37,7 @@ export default function ConversationList(props) {
             <ToolbarButton key="add" icon="ion-ios-add-circle-outline" />
           ]}
         />
-        <ConversationSearch />
+        {/*<ConversationSearch />*/}
         {
           conversations.map(conversation =>
             <ConversationListItem
