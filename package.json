@@ -2,6 +2,8 @@
   "name": "react-chat-socket",
   "version": "1.0.0",
   "scripts": {
+    "start": "node index.js --prefix server",
+    "heroku-postbuild": "cd client && npm install && npm run build",
     "dev": "npm run server && npm run client",
     "client": "npm run start --prefix client",
     "server": "npm run server --prefix server"
