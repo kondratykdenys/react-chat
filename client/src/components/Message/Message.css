@@ -3,6 +3,10 @@
   flex-direction: column;
 }
 
+.message:last-child {
+  padding-bottom: 70px;
+}
+
 .message .timestamp {
   display: flex;
   justify-content: center;
@@ -23,23 +27,19 @@
 }
 
 .message.start .bubble-container .bubble {
-  /* margin-top: 10px; */
   border-top-left-radius: 20px;
 }
 
 .message.end .bubble-container .bubble {
   border-bottom-left-radius: 20px;
-  /* margin-bottom: 10px; */
 }
 
 .message.mine.start .bubble-container .bubble {
-  margin-top: 10px;
   border-top-right-radius: 20px;
 }
 
 .message.mine.end .bubble-container .bubble {
   border-bottom-right-radius: 20px;
-  margin-bottom: 10px;
 }
 
 .message .bubble-container .bubble {
@@ -65,4 +65,8 @@
 
 .bubble {
   white-space: normal;
+}
+
+.author {
+  padding: 10px;
 }

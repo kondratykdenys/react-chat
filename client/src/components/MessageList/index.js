@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import Compose from '../Compose'
 import Toolbar from '../Toolbar'
 import ToolbarButton from '../ToolbarButton'
@@ -23,7 +23,7 @@ export default function MessageList({ messages = [], myUserId }) {
           ? null
           : current.author
       let currentMoment = moment(current.timestamp)
-      let prevBySameAuthor = false
+      let prevBySameAuthor = true
       let nextBySameAuthor = false
       let startsSequence = true
       let endsSequence = true
@@ -74,6 +74,14 @@ export default function MessageList({ messages = [], myUserId }) {
     return tempMessages
   }
 
+  const messageList = useRef()
+
+  useEffect(() => {
+    messageList.current.scrollIntoView({
+      block: 'end',
+    })
+  }, [messages])
+
   return (
     <div className="message-list">
       <Toolbar
@@ -88,9 +96,12 @@ export default function MessageList({ messages = [], myUserId }) {
         ]}
       />
 
-      <div className="message-list-container">{renderMessages()}</div>
+      <div>
+        <div ref={messageList} className="message-list-container">{renderMessages()}</div>
+      </div>
 
       <Compose
+        messageList={messageList}
         rightItems={[
           <ToolbarButton key="photo" icon="ion-ios-camera" />,
           <ToolbarButton key="image" icon="ion-ios-image" />,

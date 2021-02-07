@@ -22,7 +22,7 @@ export default function Message({
       ].join(' ')}
     >
       {showTimestamp && <div className="timestamp">{friendlyTimestamp}</div>}
-      {author && <span>{author.name.firstName}</span>}
+      {author && <div className="author"><span>Author: {author.name.firstName}</span></div>}
       <div className="bubble-container">
         <div className="bubble" title={friendlyTimestamp}>
           {data.message}

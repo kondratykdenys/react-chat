@@ -3,7 +3,7 @@ import './Compose.css'
 import useInput from '../../hooks/useInput'
 import socket from '../../socket'
 
-export default function Compose({ rightItems }) {
+export default function Compose({ rightItems, messageList }) {
   const [message, { reset: resetMessage }] = useInput()
 
   const onSubmit = (event) => {
@@ -14,6 +14,10 @@ export default function Compose({ rightItems }) {
 
     socket.emit('ADD_NEW_MESSAGE', { message: message.value })
     resetMessage()
+    messageList.current.scrollIntoView({
+      block: 'end',
+    })
+
   }
   return (
     <form onSubmit={onSubmit} className="compose">
