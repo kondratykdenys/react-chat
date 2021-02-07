@@ -1,6 +1,7 @@
 {
   "name": "react-chat-socket",
   "version": "1.0.0",
+  "main": "server/index.js",
   "scripts": {
     "start": "node index.js --prefix server",
     "heroku-prebuild": "cd server && npm install",
@@ -29,5 +30,9 @@
   "prettier": {
     "singleQuote": true,
     "semi": false
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^3.1.1"
   }
 }
