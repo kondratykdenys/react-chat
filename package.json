@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node index.js --prefix server",
+    "heroku-prebuild": "cd server && npm install",
     "heroku-postbuild": "cd client && npm install && npm run build",
     "dev": "npm run server && npm run client",
     "client": "npm run start --prefix client",
