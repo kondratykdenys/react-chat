@@ -1,37 +1,43 @@
-import React from 'react';
-import ConversationList from '../ConversationList';
-import MessageList from '../MessageList';
-import './Messenger.css';
+import React, { useEffect, useState } from 'react'
+import ConversationList from '../ConversationList'
+import MessageList from '../MessageList'
+import './Messenger.css'
+import socket from '../../socket'
 
-export default function Messenger(props) {
-    return (
-      <div className="messenger">
-        {/* <Toolbar
-          title="Messenger"
-          leftItems={[
-            <ToolbarButton key="cog" icon="ion-ios-cog" />
-          ]}
-          rightItems={[
-            <ToolbarButton key="add" icon="ion-ios-add-circle-outline" />
-          ]}
-        /> */}
+export default function Messenger() {
+  const [conversations, setConversations] = useState([])
+  const [messages, setMessages] = useState([])
 
-        {/* <Toolbar
-          title="Conversation Title"
-          rightItems={[
-            <ToolbarButton key="info" icon="ion-ios-information-circle-outline" />,
-            <ToolbarButton key="video" icon="ion-ios-videocam" />,
-            <ToolbarButton key="phone" icon="ion-ios-call" />
-          ]}
-        /> */}
+  useEffect(() => {
+    getRoom()
+  }, [])
 
-        <div className="scrollable sidebar">
-          <ConversationList />
-        </div>
-
-        <div className="scrollable content">
-          <MessageList />
-        </div>
+  const getRoom = () => {
+    const getRoom = ({ users, messages }) => {
+      const newUsers = users.map((user) => {
+        return {
+          photo: user.picture.large,
+          name: `${user.name.firstName} ${user.name.lastName}`,
+        }
+      })
+      setConversations(newUsers)
+      setMessages(messages)
+    }
+    socket.on('JOINED', getRoom)
+    socket.on('LEAVE', getRoom)
+    socket.on('GET_MESSAGE', ({ messages }) => {
+      setMessages(messages)
+    })
+  }
+  return (
+    <div className="messenger">
+      <div className="scrollable sidebar">
+        <ConversationList conversations={conversations} />
       </div>
-    );
+
+      <div className="scrollable content">
+        <MessageList messages={messages} myUserId={socket.id} />
+      </div>
+    </div>
+  )
 }
