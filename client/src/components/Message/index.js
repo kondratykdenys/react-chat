@@ -9,6 +9,7 @@ export default function Message({
   endsSequence,
   showTimestamp,
   author,
+  connection
 }) {
   const friendlyTimestamp = moment(data.timestamp).format('LLLL')
   console.log(data.message)
@@ -19,6 +20,7 @@ export default function Message({
         `${isMine ? 'mine' : ''}`,
         `${startsSequence ? 'start' : ''}`,
         `${endsSequence ? 'end' : ''}`,
+        `${connection ? 'connection' : ''}`
       ].join(' ')}
     >
       {showTimestamp && <div className="timestamp">{friendlyTimestamp}</div>}

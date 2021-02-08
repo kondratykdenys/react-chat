@@ -70,3 +70,12 @@
 .author {
   padding: 10px;
 }
+
+.connection .bubble-container .bubble {
+  margin: 0 auto;
+  background-color: transparent;
+}
+
+.mine.connection, .connection .author {
+  display: none;
+}

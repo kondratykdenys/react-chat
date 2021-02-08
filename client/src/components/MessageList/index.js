@@ -14,16 +14,17 @@ export default function MessageList({ messages = [], myUserId }) {
     let tempMessages = []
 
     while (i < messageCount) {
-      let previous = messages[i - 1]
-      let current = messages[i]
-      let next = messages[i + 1]
-      let isMine = current.author.id === myUserId
-      let author =
+      const previous = messages[i - 1]
+      const current = messages[i]
+      const connection = current.connection || false
+      const next = messages[i + 1]
+      const isMine = current.author.id === myUserId
+      const author =
         isMine || (previous && previous.author.id === current.author.id)
           ? null
           : current.author
-      let currentMoment = moment(current.timestamp)
-      let prevBySameAuthor = true
+      const currentMoment = moment(current.timestamp)
+      let prevBySameAuthor = true;
       let nextBySameAuthor = false
       let startsSequence = true
       let endsSequence = true
@@ -34,7 +35,7 @@ export default function MessageList({ messages = [], myUserId }) {
         let previousDuration = moment.duration(
           currentMoment.diff(previousMoment)
         )
-        prevBySameAuthor = previous.author === current.author
+        prevBySameAuthor = previous.author.id === current.author.id
 
         if (prevBySameAuthor && previousDuration.as('hours') < 1) {
           startsSequence = false
@@ -48,7 +49,7 @@ export default function MessageList({ messages = [], myUserId }) {
       if (next) {
         let nextMoment = moment(next.timestamp)
         let nextDuration = moment.duration(nextMoment.diff(currentMoment))
-        nextBySameAuthor = next.author === current.author
+        nextBySameAuthor = next.author.id === current.author.id
 
         if (nextBySameAuthor && nextDuration.as('hours') < 1) {
           endsSequence = false
@@ -64,6 +65,7 @@ export default function MessageList({ messages = [], myUserId }) {
           showTimestamp={showTimestamp}
           data={current}
           author={author}
+          connection={connection}
         />
       )
 

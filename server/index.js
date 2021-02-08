@@ -25,7 +25,7 @@ async function start() {
   try {
     io.on('connection', (socket) => {
       socket.on('JOIN', ({ firstName, lastName }) => {
-        const newUser = {
+        const author = {
           id: socket.id,
           name: {
             firstName,
@@ -37,7 +37,14 @@ async function start() {
             ).toFixed()}.jpg`,
           },
         }
-        room.users.push(newUser)
+        room.messages.push({
+          id: Math.random(),
+          author,
+          message: `${author.name.firstName} ${author.name.lastName} connected`,
+          connection: true,
+          timestamp: new Date().getTime(),
+        })
+        room.users.push(author)
         socket.emit('JOINED', room)
         socket.broadcast.emit('JOINED', room)
       })
@@ -58,6 +65,18 @@ async function start() {
       })
 
       socket.on('disconnect', () => {
+        const author = room.users.find((user) => {
+          if (user.id === socket.id) {
+            return user
+          }
+        })
+        room.messages.push({
+          id: Math.random(),
+          author,
+          message: `${author.name.firstName} ${author.name.lastName} disconnected`,
+          connection: true,
+          timestamp: new Date().getTime(),
+        })
         room.users = room.users.filter((user) => user.id !== socket.id)
         socket.broadcast.emit('LEAVE', room)
       })
